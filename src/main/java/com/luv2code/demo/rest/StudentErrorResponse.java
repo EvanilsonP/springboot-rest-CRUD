@@ -5,14 +5,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class StudentErrorController {
+public class StudentErrorResponse {
     private int status;
     private String message;
     private long timeStamp;
 
-    public StudentErrorController() {}
+    public StudentErrorResponse() {}
 
-    public StudentErrorController(int status, String message, long timeStamp) {
+    public StudentErrorResponse(int status, String message, long timeStamp) {
         this.status = status;
         this.message = message;
         this.timeStamp = timeStamp;

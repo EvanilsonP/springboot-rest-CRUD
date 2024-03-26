@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class StudentRestController {
     private List<Student> theStudents;
+
     // define @PostConstruct to load the student data... only once
     @PostConstruct
     public void loadData() {
@@ -24,6 +25,7 @@ public class StudentRestController {
         theStudents.add(new Student("Leilo", "Pavolas"));
         theStudents.add(new Student("Laiaco", "Timateos"));
     }
+
     // define an endpoint for "students" - return a list of students
     @RequestMapping("/students")
     public List<Student> getStudents() {
@@ -35,33 +37,9 @@ public class StudentRestController {
         // just index into the list... keep it simple for now
 
         // check the student id
-        if( (studentId >= theStudents.size()) || (studentId < 0)) {
+        if ((studentId >= theStudents.size()) || (studentId < 0)) {
             throw new StudentNotFoundException("Student id not found: " + studentId);
         }
         return theStudents.get(studentId);
-    }
-
-    // add an exception handler using ExceptionHandler
-    @ExceptionHandler
-    public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException exc) {
-        // create a StudentErrorResponse
-        StudentErrorResponse error = new StudentErrorResponse();
-        error.setStatus(HttpStatus.NOT_FOUND.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-        // Return responseEntity
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-    }
-
-    // add another exception handler using ExceptionHandler
-    @ExceptionHandler
-    public ResponseEntity<StudentErrorResponse> handleException(Exception exc) {
-        // create a StudentErrorResponse
-        StudentErrorResponse error = new StudentErrorResponse();
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setMessage(exc.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-        // Return responseEntity
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
